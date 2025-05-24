@@ -1,0 +1,50 @@
+# === General ===
+*.pyc
+__pycache__/
+*.log
+.env
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# === Node (React Frontend) ===
+frontend/voice_pilot_frontend/node_modules/
+frontend/voice_pilot_frontend/.env
+frontend/voice_pilot_frontend/.parcel-cache/
+frontend/voice_pilot_frontend/.eslintcache
+frontend/voice_pilot_frontend/build/
+frontend/voice_pilot_frontend/dist/
+frontend/voice_pilot_frontend/yarn.lock
+frontend/voice_pilot_frontend/npm-debug.log*
+frontend/voice_pilot_frontend/yarn-debug.log*
+frontend/voice_pilot_frontend/yarn-error.log*
+frontend/voice_pilot_frontend/.vscode/
+frontend/voice_pilot_frontend/.idea/
+
+# === FastAPI Backend ===
+backend/env/
+backend/venv/
+backend/.env
+backend/__pycache__/
+backend/*.pyc
+backend/*.log
+backend/.vscode/
+backend/.idea/
+
+# === Rasa NLU ===
+rasa_NLU/env/
+rasa_NLU/.env
+rasa_NLU/models/
+rasa_NLU/__pycache__/
+rasa_NLU/*.pyc
+rasa_NLU/.vscode/
+rasa_NLU/.idea/
+rasa_NLU/rasa.db
+rasa_NLU/events.db
+rasa_NLU/tests/.mypy_cache/
+# Ignore Rasa cache
+rasa_NLU/.rasa/
+
+
+# === Optional JSON or Scratch ===
+rasa_NLU/*.json

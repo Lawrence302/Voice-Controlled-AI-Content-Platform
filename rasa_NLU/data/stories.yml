@@ -1,0 +1,46 @@
+version: "3.1"
+
+stories:
+
+- story: happy path
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_great
+  - action: utter_happy
+
+- story: sad path 1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: affirm
+  - action: utter_happy
+
+- story: sad path 2
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: deny
+  - action: utter_goodbye
+
+# 
+- story: navigate home
+  steps:
+  - intent: navigate_home 
+  - action: utter_navigate_home
+
+- story: navigate contact
+  steps:
+  - intent: navigate_contact 
+  - action: utter_navigate_contact
+
+- story: navigate about
+  steps:
+  - intent: navigate_about 
+  - action: utter_navigate_about
