@@ -1,7 +1,11 @@
-from fastapi import FastAPI, WebSocket, Request
+from fastapi import Depends, FastAPI, WebSocket, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import json, httpx, language_tool_python
-
+from models import BlogPost
+from database import get_db
+from schemas import BlogPostCreate, BlogPostRead
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.future import select
 
 app = FastAPI()
 tool = language_tool_python.LanguageTool('en-US')
@@ -25,6 +29,38 @@ app.add_middleware(
 @app.get("/")
 def home():
     return {"messsage":"welcome to fastAPI backend"}
+
+
+@app.post("/blog")
+async def create_blogpost(post: BlogPostCreate, db: AsyncSession = Depends(get_db)):
+    new_post = BlogPost(
+        title=post.title,
+        content=post.content,
+        summary=post.summary,
+        author=post.author
+    )
+    db.add(new_post)
+    await db.commit()
+    await db.refresh(new_post)
+    return new_post
+
+# get all blogposts
+@app.get("/blog", response_model=list[BlogPostRead])
+async def get_all_blogposts(db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(BlogPost))
+    posts = result.scalars().all()
+    return posts
+
+#  get blogpost by id
+from fastapi import Path
+
+@app.get("/blog/{post_id}", response_model=BlogPostCreate)
+async def get_blogpost_by_id(post_id: int = Path(..., gt=0), db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(BlogPost).where(BlogPost.id == post_id))
+    post = result.scalars().first()
+    if not post:
+        raise HTTPException(status_code=404, detail="BlogPost not found")
+    return post
 
 
 @app.post("/voice-command")
