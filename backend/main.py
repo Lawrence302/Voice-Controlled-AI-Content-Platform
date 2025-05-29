@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import json, httpx, language_tool_python
 from models import BlogPost
 from database import get_db
-from schemas import BlogPostCreate, BlogPostRead
+from schemas import BlogPostCreate, BlogPostRead, IntentResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
@@ -15,6 +15,7 @@ connected_websockets = set()
 origins = [
     "http://localhost",
     "http://localhost:5173",
+    "http://localhost:5174",
     "http://localhost:5005"
 ]
 
@@ -86,54 +87,33 @@ async def voice_command(request: Request):
 
     # setting actions for various intents
     if intent_name == "navigate_home":
-        message = {
-            "action": "navigate",
-            "target": ""
-        }
-        # send message to all clients
-        for ws in connected_websockets.copy():
-            try:
-                await ws.send_text(json.dumps(message))
-            except Exception as e:
-                print("error sending ws message",e)
+      
+        return IntentResponse(action="navigate", target="")
+       
     
     if intent_name == "navigate_contact":
-        message = {
-            "action": "navigate",
-            "target": "contact"
-        }
-        # send message to all clients
-        for ws in connected_websockets.copy():
-            try:
-                await ws.send_text(json.dumps(message))
-            except Exception as e:
-                print("error sending ws message",e)
+       
+
+        return IntentResponse(action="navigate", target="contact")
+
         
     if intent_name == "navigate_about":
-        message = {
-            "action": "navigate",
-            "target": "about"
-        }
-        # send message to all clients
-        for ws in connected_websockets.copy():
-            try:
-                await ws.send_text(json.dumps(message))
-            except Exception as e:
-                print("error sending ws message",e)
+       
+        return IntentResponse(action="navigate", target="about")
         
     
-    return {"status": "ok"}
+  
 
-@app.websocket("/ws")
-async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    connected_websockets.add(websocket)
-    try:
-        while True:
-            data = await websocket.receive_text()
-            print(data)
-            await websocket.send_text(f"message text ws: {data}")
-    except Exception as e:
-        print("Websocket connection closed",e)
-    finally:
-        connected_websockets.remove(websocket)
+# @app.websocket("/ws")
+# async def websocket_endpoint(websocket: WebSocket):
+#     await websocket.accept()
+#     connected_websockets.add(websocket)
+#     try:
+#         while True:
+#             data = await websocket.receive_text()
+#             print(data)
+#             await websocket.send_text(f"message text ws: {data}")
+#     except Exception as e:
+#         print("Websocket connection closed",e)
+#     finally:
+#         connected_websockets.remove(websocket)

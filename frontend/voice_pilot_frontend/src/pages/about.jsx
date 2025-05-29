@@ -2,11 +2,11 @@ import React from 'react'
 
 const About = () => {
   return (
-    <div className="bg-white p-6 sm:p-8 md:p-10 rounded-xl shadow-xl max-w-3xl mx-auto">
-      <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 mb-6 text-center">
+    <div className="bg-white p-6 sm:p-8 md:p-10 rounded-xl shadow-xl max-w-3xl mb-12 mx-auto">
+      <h1 className="text-3xl sm:text-4xl font-extrabold text-indigo-600 mb-6 text-center">
         About VoicePilot
       </h1>
-      <div className="prose prose-slate max-w-none prose-p:text-slate-700 prose-headings:text-slate-800 space-y-4">
+      <div className="prose prose-slate max-w-none prose-p:text-slate-300  space-y-4">
         <p>
           <strong>VoicePilot</strong> is an AI-powered blogging platform designed to simplify user interaction, automate content generation, and enhance accessibility through voice and smart intent recognition.
         </p>

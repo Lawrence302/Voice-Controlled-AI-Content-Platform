@@ -1,0 +1,8 @@
+- removed socket related code 
+- modified the route to use just the restapi
+- did some frontend modifications color, components
+- added AlertPopup.jsx, HelpModal, new VoiceControl component (deleted old one from header)
+- added useVoiceRecognition and useVoiceCommand hooks
+- fetch request to handle navigation requests 
+- modified about, contact page
+- created contants.js containing constants for user commands read by help modal

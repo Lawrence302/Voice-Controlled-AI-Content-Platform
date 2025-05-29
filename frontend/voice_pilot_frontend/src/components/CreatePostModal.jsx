@@ -1,31 +1,27 @@
 
 import React, { useState } from 'react';
 import LoadingSpinner from './LoadingSpinner';
-import Alert from './Alert';
 
-const CreatePostModal = ({ isOpen, onClose, onSubmit }) => {
+
+const CreatePostModal = ({ isOpen, onClose, onSubmit, addAlert }) => {
   const [topic, setTopic] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!topic.trim()) {
-      setError("Please enter a topic for your blog post.");
+      addAlert && addAlert('warning', "Please enter a topic for your blog post.");
       return;
     }
-    setError(null);
+   
     setIsLoading(true);
     try {
       await onSubmit(topic);
       setTopic(''); // Clear topic on successful submission
       // onClose(); // Parent will handle closing on success if needed
     } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("An unknown error occurred.");
-      }
+      const msg = err instanceof Error ? err.message : "An unknown error occurred.";
+      addAlert && addAlert('error', msg);
     } finally {
       setIsLoading(false);
     }
@@ -39,7 +35,7 @@ const CreatePostModal = ({ isOpen, onClose, onSubmit }) => {
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-sky-700">Create New Blog Post</h2>
           <button
-            onClick={() => { setError(null); onClose(); }}
+            onClick={() => { onClose(); }}
             className="text-slate-500 hover:text-slate-700 transition-colors"
             aria-label="Close modal"
           >
@@ -49,7 +45,6 @@ const CreatePostModal = ({ isOpen, onClose, onSubmit }) => {
           </button>
         </div>
 
-        {error && <Alert type="error" message={error} onClose={() => setError(null)} />}
 
         <form onSubmit={handleSubmit} className="mt-4">
           <div className="mb-6">
@@ -72,7 +67,7 @@ const CreatePostModal = ({ isOpen, onClose, onSubmit }) => {
             {isLoading && <LoadingSpinner size="sm" />}
             <button
               type="button"
-              onClick={() => { setError(null); onClose(); }}
+              onClick={() => { onClose(); }}
               className="px-5 py-2.5 text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors disabled:opacity-50"
               disabled={isLoading}
             >

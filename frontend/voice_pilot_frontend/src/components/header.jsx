@@ -1,132 +1,46 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from'react';
+import { Link } from 'react-router-dom';
 
-const Header = ({ onNewPostClick }) => {
-  const transcriptRef = useRef('');
-  const navigate = useNavigate();
-  const socketRef = useRef(null);
-  const recognitionRef = useRef(null);
-  const [transcript, setTranscript] = useState('');
-  const [listening, setListening] = useState(false);
+const Header = ({ onNewPostClick, onToggleHelp  }) => {
+ 
+  
 
-  // Check for browser support
-  const isSupported = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
-  const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-  // WebSocket setup
-  useEffect(() => {
-    const connectWebSocket = () => {
-      const ws = new WebSocket('ws://localhost:8000/ws');
-
-      ws.onopen = () => console.log('✅ WebSocket connected.');
-
-      ws.onmessage = (event) => {
-        try {
-          const msg = JSON.parse(event.data);
-          console.log('📩 WebSocket message received:', msg);
-          if (msg.action === 'navigate') {
-            navigate(`/${msg.target}`);
-          }
-        } catch (e) {
-          console.error('❌ Invalid JSON from WebSocket:', e);
-        }
-      };
-
-      ws.onerror = (err) => console.error('❌ WebSocket error:', err);
-
-      ws.onclose = () => {
-        console.warn('⚠️ WebSocket closed. Reconnecting...');
-        setTimeout(connectWebSocket, 2000); // Reconnect
-      };
-
-      socketRef.current = ws;
-    };
-
-    connectWebSocket();
-
-    return () => {
-      socketRef.current?.close();
-    };
-  }, [navigate]);
-
-  // Start recognition
-  const startListening = () => {
-    if (!isSupported) {
-      alert('Your browser does not support Speech Recognition.');
-      return;
-    }
-
-    const recognition = new SpeechRecognitionAPI();
-    recognitionRef.current = recognition;
-    recognition.continuous = false;
-    recognition.interimResults = true;
-    recognition.lang = 'en-US';
-
-    recognition.onstart = () => {
-      console.log('🎤 Listening started');
-      setListening(true);
-      setTranscript('');
-    };
-
-    recognition.onresult = (event) => {
-      let finalTranscript = '';
-      for (let i = event.resultIndex; i < event.results.length; ++i) {
-        finalTranscript += event.results[i][0].transcript;
-      }
-      setTranscript(finalTranscript);
-      transcriptRef.current = finalTranscript;
-    };
-
-    recognition.onerror = (event) => {
-      console.error('❌ Speech recognition error:', event.error);
-    };
-
-    recognition.onend = () => {
-      console.log('🛑 Listening ended');
-      setListening(false);
-
-      const finalTranscript = transcriptRef.current.trim();
-      if (finalTranscript) {
-        console.log('📤 Sending transcript to backend:', finalTranscript);
-        fetch('http://localhost:8000/voice-command', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: finalTranscript })
-        }).catch(err => console.error("❌ Failed to send voice command:", err));
-      }
-    };
-
-    recognition.start();
-  };
-
-  // Stop recognition manually
-  const stopListening = () => {
-    recognitionRef.current?.stop();
-  };
-
-  const toggleListening = () => {
-    if (listening) {
-      stopListening();
-    } else {
-      startListening();
-    }
-  };
+  // Start recognition 
+ 
+ 
 
   return (
-    <div className=' flex justify-around p-4 ' >
+    <div className=' flex flex-wrap justify-around p-4 bg-slate-900 text-white ' >
+      
+      <h1 className='text-3xl text-indigo-600 font-bold' >VoicePilot</h1>
+      
+      
       <ul className=' flex justify-around items-center gap-6'>
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/about'>About</Link></li>
         <li><Link to='/contact'>Contact</Link></li>
+        {/* ////////////////// */}
+       
+
+          <button
+            onClick={onToggleHelp}
+            className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-semibold py-2 px-3 rounded-lg text-sm transition-colors duration-150 flex items-center"
+            title="Show Voice Commands Help"
+            aria-label="Show voice commands help"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-1">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+            </svg>
+            Help
+          </button>
 
       </ul>
 
-      <button onClick={toggleListening}>
-        🎙️ {listening ? 'Stop Listening' : 'Start Voice Command'}
-      </button>
+      
       <button
         onClick={onNewPostClick}
-        className="bg-sky-500 hover:bg-sky-400 text-white font-semibold py-2 px-4 rounded-lg shadow transition-colors flex items-center text-sm"
+        className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 px-4 rounded-lg shadow transition-colors flex items-center text-sm"
         aria-label="Create new post"
       >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-1 sm:mr-2">
@@ -135,7 +49,7 @@ const Header = ({ onNewPostClick }) => {
         New Post
       </button>
 
-      {listening && <p><strong>Listening:</strong> {transcript}</p>}
+     
     </div>
   );
 };

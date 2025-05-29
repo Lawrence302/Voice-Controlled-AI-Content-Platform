@@ -3,6 +3,10 @@ from typing import Optional
 from datetime import datetime
 from uuid import UUID
 
+class IntentResponse(BaseModel):
+    action: str
+    target: str
+
 class BlogPostCreate(BaseModel):
     title: str
     content: str

@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+
 import './App.css'
 import About from './pages/About'
 import Home from './pages/home'
@@ -7,13 +8,17 @@ import Header from './components/header'
 import CreatePostModal from './components/CreatePostModal'
 import LoadingSpinner from './components/LoadingSpinner'
 import Alert from './components/Alert'
+import VoiceControlBar from './components/VoiceControlBar.jsx'
+import AlertPopup from './components/AlertPopup.jsx'
+import HelpModal from './components/HelpModal.jsx'
+import AboutModal from './components/AboutModal.jsx'
 
 import { generateBlogPostContent } from '../geminiService'
 import {useLocation, useNavigate, Routes, Route } from 'react-router-dom'
 import PostDetail from './pages/PostDetail'
+import { useVoiceCommands } from './hooks/useVoiceCommands.js'
 
-
-
+import { VOICE_COMMANDS_HELP } from '../constants.js'
 // get existing posts from database
 // get existing posts from database
 let INITIAL_POSTS_DATA = [];
@@ -54,18 +59,80 @@ function App() {
     const savedPosts = localStorage.getItem('geminiBlogPosts');
     return savedPosts ? JSON.parse(savedPosts) : INITIAL_POSTS_DATA;
   });
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+ 
   const [appError, setAppError] = useState(null);
   const [appLoading, setAppLoading] = useState(false);
 
+  // varable definitions for voice recognition , draft post and alert message
+
+  const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
+  const [currentPostDraft, setCurrentPostDraft] = useState({ title: '' }); // content is optional
+  const [alerts, setAlerts] = useState([]); // array of alert messages
+  const [isGeminiLoading, setIsGeminiLoading] = useState(false);
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
+  const [showVoiceError, setShowVoiceError] = useState(false)
+
+
   const navigate = useNavigate();
+ 
+  
+  const addAlert = useCallback((type, message) => {
+  const newAlert = { id: crypto.randomUUID(), type, message };
+  setAlerts(prevAlerts => [newAlert, ...prevAlerts.slice(0, 2)]);
+  
+  setTimeout(() => {
+    setAlerts(prevAlerts => prevAlerts.filter(alert => alert.id !== newAlert.id));
+    }, 5000);
+  }, []);
+
+  
+
+  // using voice command hook
+  const {
+  isListening,
+  transcript,
+  finalTranscript,
+  startListening,
+  stopListening,
+  error: voiceError,
+  isSupported: voiceSupported
+} = useVoiceCommands({
+  isCreatePostModalOpen,
+  setIsCreatePostModalOpen,
+  setCurrentPostDraft,
+  handleCreatePost,
+  setIsHelpModalOpen,
+  setIsAboutModalOpen,
+  addAlert,
+  navigate
+});
 
   useEffect(() => {
     localStorage.setItem('geminiBlogPosts', JSON.stringify(posts));
   }, [posts]);
 
-  const handleCreatePost = async (topic) => {
+  useEffect(()=>{
+    if(voiceError){
+      setShowVoiceError(true)
+    }
+  },[voiceError])
+
+
+
+  // made it a regular function so it could be hoisted
+  async function handleCreatePost(topic){
     setAppError(null);
+    setCurrentPostDraft(topic)
+    if (!topic) {
+      addAlert('warning', 'Title is required to generate and save the post.');
+      return;
+    }
+     setCurrentPostDraft(topic)
+    console.log("save post called ", topic)
+    if (topic){
+      return;
+    }
     try {
       const generatedData = await generateBlogPostContent(topic);
       const newPost = {
@@ -99,7 +166,7 @@ function App() {
       const postWithUiField = { ...data, createdAt: data.date };
 
       setPosts(prevPosts => [postWithUiField, ...prevPosts]);
-      setIsCreateModalOpen(false);
+      setIsCreatePostModalOpen(false);
       navigate(`/post/${data.id}`);
     } catch (error) {
       console.error("Failed to create post:", error);
@@ -145,12 +212,19 @@ function App() {
   }, [appError]);
   
 
-  return (
-    <>
-    
-      <Header onNewPostClick={() => setIsCreateModalOpen(true)} />
 
-      <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  return (
+    <div className="flex flex-col min-h-screen w-full bg-slate-800 ">
+    
+      <Header onNewPostClick={() => {
+        // setCurrentPostDraft({ title: '' });
+        setIsCreatePostModalOpen(true)}}
+        onToggleHelp={() => setIsHelpModalOpen(prev => !prev)}
+        onToggleAbout={() => setIsAboutModalOpen(prev => !prev)}
+      
+        />
+
+      <main className=" mx-auto py-8 w-[90%] bg-slate-800">
         {appLoading && <div className="py-10"><LoadingSpinner message="Loading application..." /></div>}
         {appError && !appLoading && (
           <div className="mb-6">
@@ -165,22 +239,59 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
           
-        </Routes>
+          </Routes>
         )}
       </main>
+
+       {isHelpModalOpen && (
+        <HelpModal 
+          isOpen={isHelpModalOpen} 
+          onClose={() => setIsHelpModalOpen(false)} 
+          commands={VOICE_COMMANDS_HELP}
+        />
+      )}
+
+      {isAboutModalOpen && (
+        <AboutModal
+          isOpen={isAboutModalOpen}
+          onClose={() => setIsAboutModalOpen(false)}
+        />
+      )}
       
 
        <CreatePostModal
-        isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
+        isOpen={isCreatePostModalOpen}
+        onClose={() => setIsCreatePostModalOpen(false)}
         onSubmit={handleCreatePost}
+        addAlert={addAlert}
       />
       
+      <VoiceControlBar
+        isListening={isListening}
+        transcript={transcript}
+        finalTranscript={finalTranscript}
+        startListening={startListening}
+        stopListening={stopListening}
+        isSupported={voiceSupported}
+      />
 
+      {showVoiceError && (
+        <div className="fixed bottom-0 z-50">
+          {voiceError && (
+            <Alert type="error" message={`Voice command issue: ${voiceError}`} onClose={() => {setShowVoiceError(false)}} />
+          )}
+        </div>
+      )}
+      
 
+      <div className="fixed top-20 right-4 z-50 space-y-2">
+        {alerts.map(alert => (
+          <AlertPopup key={alert.id} type={alert.type} message={alert.message} onClose={() => setAlerts(prev => prev.filter(a => a.id !== alert.id))} />
+        ))}
+      </div>
       
       
-    </>
+    </div>
   )
 }
 
