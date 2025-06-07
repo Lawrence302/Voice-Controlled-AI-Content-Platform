@@ -199,6 +199,9 @@ nlu:
 - intent: set_title
   examples: |
     - set the title 
+    - set the topic
+    - set topic 
+    - the topic is 
     - title is
     - title title 
     - call this 
@@ -254,4 +257,3 @@ nlu:
     - close create post
     - exit create post 
     - close post modal 
-    
