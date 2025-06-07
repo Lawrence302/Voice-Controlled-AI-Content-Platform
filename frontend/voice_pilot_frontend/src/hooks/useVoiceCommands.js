@@ -64,34 +64,83 @@ export const useVoiceCommands = ({
   
         }
 
-        if (command.startsWith('create new post') || command.startsWith('new post')) {
+        if (actualCommand.action == "open_help"){
+          setIsHelpModalOpen(true);
+          return
+        }
+
+        if (actualCommand.action == "close_help"){
+          setIsHelpModalOpen(false);
+          return
+        }
+
+         if (actualCommand.action == "scroll_down"){
+          window.scrollBy({ top: window.innerHeight / 2, behavior: 'smooth' });
+          return
+        }
+
+         if (actualCommand.action == "scroll_up"){
+           window.scrollBy({ top: -window.innerHeight / 2, behavior: 'smooth' });
+          return
+        }
+
+        if (actualCommand.action == "create_post"){
           setCurrentPostDraft({ title: '' });
           setIsCreatePostModalOpen(true);
           addAlert('info', 'New post modal opened. Say "Set title [your title]" then "Save post".');
-        } else if (command.startsWith('scroll down')) {
-          window.scrollBy({ top: window.innerHeight / 2, behavior: 'smooth' });
-        } else if (command.startsWith('scroll up')) {
-          window.scrollBy({ top: -window.innerHeight / 2, behavior: 'smooth' });
-        } else if (command.startsWith('show help') || command.startsWith('open help')) {
-          setIsHelpModalOpen(true);
-        } else if (command.startsWith('close help') || command.startsWith('hide help')) {
-          setIsHelpModalOpen(false);
-          
-        } 
+          return
+        }
 
         if (isCreatePostModalOpen) {
-          if (command.startsWith('set title ')) {
-            const title = command.substring('set title '.length);
-            setCurrentPostDraft(prev => ({ ...prev, title }));
-            addAlert('success', `Title set to: "${title}"`);
-          } else if (command === 'save post') {
-            await handleCreatePost();
-          } else if (command === 'cancel post' || command === 'close modal') {
+          if (actualCommand.action == "cancel_save"){
             setIsCreatePostModalOpen(false);
             setCurrentPostDraft({ title: '' });
             addAlert('info', 'New post cancelled.');
+
+            return
+          }
+
+          if (actualCommand.action == "set_title"){
+            const title = command.substring('set title '.length);
+            setCurrentPostDraft(prev => ({ ...prev, title }));
+            addAlert('success', `Title set to: "${title}"`);
+            return
+          }
+
+          if (actualCommand.action == "save_post"){
+            await handleCreatePost();
+            return
           }
         }
+
+        // if (command.startsWith('create new post') || command.startsWith('new post')) {
+        //   setCurrentPostDraft({ title: '' });
+        //   setIsCreatePostModalOpen(true);
+        //   addAlert('info', 'New post modal opened. Say "Set title [your title]" then "Save post".');
+        // } else if (command.startsWith('scroll down')) {
+        //   window.scrollBy({ top: window.innerHeight / 2, behavior: 'smooth' });
+        // } else if (command.startsWith('scroll up')) {
+        //   window.scrollBy({ top: -window.innerHeight / 2, behavior: 'smooth' });
+        // } else if (command.startsWith('show help') || command.startsWith('open help')) {
+        //   setIsHelpModalOpen(true);
+        // } else if (command.startsWith('close help') || command.startsWith('hide help')) {
+        //   setIsHelpModalOpen(false);
+          
+        // } 
+
+        // if (isCreatePostModalOpen) {
+        //   if (command.startsWith('set title ')) {
+        //     const title = command.substring('set title '.length);
+        //     setCurrentPostDraft(prev => ({ ...prev, title }));
+        //     addAlert('success', `Title set to: "${title}"`);
+        //   } else if (command === 'save post') {
+        //     await handleCreatePost();
+        //   } else if (command === 'cancel post' || command === 'close modal') {
+        //     setIsCreatePostModalOpen(false);
+        //     setCurrentPostDraft({ title: '' });
+        //     addAlert('info', 'New post cancelled.');
+        //   }
+        // }
       }catch(err){
         
         console.error("❌ Failed to send voice command:", err)
