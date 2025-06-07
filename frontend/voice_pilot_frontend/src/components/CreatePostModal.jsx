@@ -1,10 +1,11 @@
 
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import LoadingSpinner from './LoadingSpinner';
 
 
-const CreatePostModal = ({ isOpen, onClose, onSubmit, addAlert }) => {
-  const [topic, setTopic] = useState('');
+const CreatePostModal = ({ isOpen, onClose, onSubmit, addAlert ,  topic, setTopic }) => {
+  
+  // const [topic, setTopic] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -27,7 +28,13 @@ const CreatePostModal = ({ isOpen, onClose, onSubmit, addAlert }) => {
     }
   };
 
+useEffect(() => {
+    console.log("Current topic in modal:", topic);
+  }, [topic]);
+
   if (!isOpen) return null;
+
+  
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-opacity duration-300 ease-in-out">
@@ -67,7 +74,7 @@ const CreatePostModal = ({ isOpen, onClose, onSubmit, addAlert }) => {
             {isLoading && <LoadingSpinner size="sm" />}
             <button
               type="button"
-              onClick={() => { onClose(); }}
+              onClick={() => { onClose(); setTopic('') }}
               className="px-5 py-2.5 text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors disabled:opacity-50"
               disabled={isLoading}
             >
@@ -76,7 +83,7 @@ const CreatePostModal = ({ isOpen, onClose, onSubmit, addAlert }) => {
             <button
               type="submit"
               className="px-5 py-2.5 text-sm font-medium text-white bg-sky-600 hover:bg-sky-700 rounded-lg shadow-md focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
-              disabled={isLoading || !topic.trim()}
+              disabled={isLoading || !String(topic).trim()} // !String(topic).trim() makes sure the trim() only works on string and does not trow an error before the topic is set
             >
               {isLoading ? 'Generating...' : 'Generate Post'}
             </button>

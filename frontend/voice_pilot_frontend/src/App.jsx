@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback} from 'react'
 
 import './App.css'
 import About from './pages/About'
@@ -75,7 +75,7 @@ function App() {
 
 
   const navigate = useNavigate();
- 
+   
   
   const addAlert = useCallback((type, message) => {
   const newAlert = { id: crypto.randomUUID(), type, message };
@@ -121,19 +121,22 @@ function App() {
 
 
   // made it a regular function so it could be hoisted
-  async function handleCreatePost(topic){
+  async function handleCreatePost(){
     setAppError(null);
-    setCurrentPostDraft(topic)
+    const topic = currentPostDraft.title
+    // setCurrentPostDraft({title:topic})
     if (!topic) {
       addAlert('warning', 'Title is required to generate and save the post.');
       return;
     }
-     setCurrentPostDraft(topic)
+    //  setCurrentPostDraft({title:topic})
     console.log("save post called ", topic)
-    if (topic){
-      return;
-    }
+    // if (topic){
+    //   return
+    // }
     try {
+     
+
       const generatedData = await generateBlogPostContent(topic);
       const newPost = {
         id: crypto.randomUUID(),
@@ -141,6 +144,13 @@ function App() {
         createdAt: new Date().toISOString(),
         author: 'Lawrence ',
       };
+
+      // const newPost ={
+      //   "title": "Exploring Mount Fuji: Japan's Iconic Peak",
+      //   "content": "Mount Fuji is not only the tallest mountain in Japan but also a cultural and spiritual symbol. Located on Honshu Island, it has inspired poets, artists, and adventurers for centuries. Climbing Mount Fuji is a popular summer activity, offering breathtaking views and a sense of accomplishment...",
+      //   "summary": "A look into the history, significance, and climbing experience of Mount Fuji, Japan’s most famous mountain.",
+      //   "author": "Lawrence"
+      // }
 
       // save the generated post to database 
       const res = await fetch("http://127.0.0.1:8000/blog", {
@@ -168,6 +178,7 @@ function App() {
       setPosts(prevPosts => [postWithUiField, ...prevPosts]);
       setIsCreatePostModalOpen(false);
       navigate(`/post/${data.id}`);
+      
     } catch (error) {
       console.error("Failed to create post:", error);
       if (error instanceof Error) {
@@ -264,6 +275,9 @@ function App() {
         onClose={() => setIsCreatePostModalOpen(false)}
         onSubmit={handleCreatePost}
         addAlert={addAlert}
+        // the below are for setting the topic
+        topic={currentPostDraft.title}   // pass current title here
+        setTopic={(newTitle) => setCurrentPostDraft(prev => ({ ...prev, title: newTitle }))} // pass setter here
       />
       
       <VoiceControlBar

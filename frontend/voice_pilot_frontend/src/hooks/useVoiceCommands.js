@@ -1,6 +1,12 @@
 import { useEffect, useCallback } from 'react';
 import { useVoiceRecognition } from './useVoiceRecognition.js';
+// import { generateBlogPostContent } from '../../geminiService.js';
 
+
+//////
+
+
+////
 
 /**
  * Hook to manage voice command logic for the app
@@ -27,11 +33,13 @@ export const useVoiceCommands = ({
   } = useVoiceRecognition();
 
   const processCommand = useCallback(async (command) => {
+   
     // This is the actual command spoken by the user 
     command = command.toLowerCase().trim();
     console.log('Processing command:', command);
 
-    // handle sucket connection here and data transfer
+   
+    // command processing and actions
     if (command) {
       console.log('📤 Sending command to backend:', command);
       try{
@@ -64,53 +72,66 @@ export const useVoiceCommands = ({
   
         }
 
+        // Note** avoid return statements in the if blocks. it may cause an infinite loop
         if (actualCommand.action == "open_help"){
           setIsHelpModalOpen(true);
-          return
+          
         }
 
         if (actualCommand.action == "close_help"){
           setIsHelpModalOpen(false);
-          return
+         
         }
 
-         if (actualCommand.action == "scroll_down"){
+        // Note** avoid return statements in the if blocks. it may cause an infinite loop
+        // this below is a disaster
+
+        // if (actualCommand.action == "scroll_down"){
+        //   window.scrollBy({ top: window.innerHeight / 2, behavior: 'smooth' });
+        //   return
+        // }
+
+        if (actualCommand.action == "scroll_down"){
           window.scrollBy({ top: window.innerHeight / 2, behavior: 'smooth' });
-          return
+          
         }
 
          if (actualCommand.action == "scroll_up"){
            window.scrollBy({ top: -window.innerHeight / 2, behavior: 'smooth' });
-          return
+        
         }
 
         if (actualCommand.action == "create_post"){
           setCurrentPostDraft({ title: '' });
           setIsCreatePostModalOpen(true);
           addAlert('info', 'New post modal opened. Say "Set title [your title]" then "Save post".');
-          return
+          
         }
 
         if (isCreatePostModalOpen) {
+         
           if (actualCommand.action == "cancel_save"){
             setIsCreatePostModalOpen(false);
             setCurrentPostDraft({ title: '' });
             addAlert('info', 'New post cancelled.');
 
-            return
+            
           }
 
           if (actualCommand.action == "set_title"){
             const title = command.substring('set title '.length);
             setCurrentPostDraft(prev => ({ ...prev, title }));
+        
             addAlert('success', `Title set to: "${title}"`);
-            return
+            
           }
 
           if (actualCommand.action == "save_post"){
-            await handleCreatePost();
-            return
+           
+              await handleCreatePost();
+             
           }
+
         }
 
         // if (command.startsWith('create new post') || command.startsWith('new post')) {
@@ -141,6 +162,7 @@ export const useVoiceCommands = ({
         //     addAlert('info', 'New post cancelled.');
         //   }
         // }
+        
       }catch(err){
         
         console.error("❌ Failed to send voice command:", err)
