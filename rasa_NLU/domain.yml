@@ -12,6 +12,15 @@ intents:
   - navigate_home
   - navigate_about
   - navigate_contact
+  #
+  - navigate_help 
+  - close_help
+  - create_post
+  - save_post
+  - cancel_save
+  - set_title 
+  - scroll_down
+  - scroll_up
 
 responses:
   utter_greet:
@@ -43,6 +52,31 @@ responses:
   utter_iamabot:
   - text: "I am a bot, trained by Lawrence ."
 
+  #
+  utter_navigate_help:
+  - text: "help modal opened"
+
+  utter_close_help:
+  - text: "help modal closed"
+  
+  utter_create_post:
+  - text: "opened create post modal"
+
+  utter_save_post: 
+  - text: "post saved"
+  
+  utter_cancel_save:
+  - text: "create post canceled"
+
+  utter_set_title:
+  - text: "title set"
+
+  utter_scroll_up:
+  - text: "scrolling up"
+
+  utter_scroll_down:
+  - text: "scrolling down"
+ 
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

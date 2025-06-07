@@ -121,3 +121,137 @@ nlu:
     - i want to go to contact page
     - i would like to go back to contact page
     - send me to contact page 
+
+- intent: navigate_help
+  examples: |
+    - open help
+    - open help page
+    - show help modal
+    - show help options
+    - show site commands
+    - how to navigate the site
+    - how to navigate
+    - help me navigate
+    - what can I do here
+    - what commands can I use
+    - how do I use this site
+    - guide me through the site
+    - show me how this works
+    - help with navigation
+    - list navigation commands
+    - navigation help please
+    - bring up the help menu
+    - where can I find the help section
+
+- intent: close_help
+  examples: |
+    - close help
+    - hide help
+    - dismiss help
+    - close help modal
+    - hide help section
+    - remove help
+    - get rid of help
+    - I don't need help anymore
+    - exit help
+    - stop showing help
+    - close the help window
+    - turn off help
+    - collapse help
+    - close the commands list
+
+
+- intent: create_post
+  examples: |
+    - create new post
+    - draft new post
+    - I want to write a new post
+    - start writing a post
+    - open post editor
+    - write a new article
+    - make a new post
+    - start a post draft
+    - create a blog post
+    - begin a new draft
+    - I want to create content
+    - write something new
+    - launch post composer
+    - open the create post page
+
+- intent: save_post
+  examples: |
+    - save post
+    - save this post
+    - save my draft
+    - save the content
+    - store the post
+    - keep this draft
+    - I want to save this
+    - can you save my post
+    - make sure it's saved
+    - save what I wrote
+    - don't lose this post
+    - save changes
+    - save the current draft
+    - save and continue later
+
+
+- intent: set_title
+  examples: |
+    - set the title 
+    - title is
+    - title title 
+    - call this 
+    - name the post 
+    - I want to title this 
+    - the title should be 
+    - let's name it 
+    - make the title 
+    - set post title as 
+    - change the title to 
+
+- intent: scroll_down
+  examples: |
+    - scroll down
+    - go down
+    - move down
+    - show more
+    - scroll lower
+    - take me down
+    - I want to see more
+    - keep going down
+    - continue scrolling
+    - can you scroll down
+
+- intent: scroll_up
+  examples: |
+    - scroll up
+    - go up
+    - move up
+    - back to top
+    - take me to the top
+    - show previous section
+    - I want to go back up
+    - scroll back
+    - go higher
+    - can you scroll up
+
+- intent: cancel_save 
+  examples: |
+    - cancel save
+    - don't save
+    - don't save post
+    - stop saving
+    - forget it
+    - never mind
+    - discard changes
+    - ignore this
+    - cancel the post
+    - cancel the draft
+    - I changed my mind
+    - forget the save
+    - undo save
+    - close create post
+    - exit create post 
+    - close post modal 
+    

@@ -44,3 +44,43 @@ stories:
   steps:
   - intent: navigate_about 
   - action: utter_navigate_about
+
+- story: navigate help 
+  steps:
+  - intent: navigate_help 
+  - action: utter_navigate_help
+
+- story: close help 
+  steps:
+  - intent: close_help 
+  - action: utter_close_help
+  
+- story: create post 
+  steps:
+  - intent: create_post 
+  - action: utter_create_post
+
+- story: set title
+  steps:
+  - intent: set_title 
+  - action: utter_set_title
+
+- story: cancel save 
+  steps:
+  - intent: cancel_save
+  - action: utter_cancel_save
+
+- story: save post
+  steps:
+  - intent: save_post
+  - action: utter_save_post
+
+- story: scroll down 
+  steps:
+  - intent: scroll_down 
+  - action: utter_scroll_down
+
+- story: scroll up
+  steps:
+  - intent: scroll_up
+  - action: utter_scroll_up
