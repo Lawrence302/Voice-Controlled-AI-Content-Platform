@@ -101,19 +101,35 @@ async def voice_command(request: Request):
        
         return IntentResponse(action="navigate", target="about")
         
-    
-  
+    if intent_name == "navigate_help" :
 
-# @app.websocket("/ws")
-# async def websocket_endpoint(websocket: WebSocket):
-#     await websocket.accept()
-#     connected_websockets.add(websocket)
-#     try:
-#         while True:
-#             data = await websocket.receive_text()
-#             print(data)
-#             await websocket.send_text(f"message text ws: {data}")
-#     except Exception as e:
-#         print("Websocket connection closed",e)
-#     finally:
-#         connected_websockets.remove(websocket)
+        return IntentResponse(action='open_help', target="help")
+  
+    if intent_name == "close_help" :
+
+        return IntentResponse(action='close_help', target="help")
+
+    if intent_name == "create_post":
+        return IntentResponse(action='create_post', target="post")
+    
+    if intent_name == "save_post":
+        return IntentResponse(action='save_post', target="post")
+    
+    if intent_name == "cancel_save":
+
+        return IntentResponse(action="cancel_save", target="post")
+
+    if intent_name == "set_title" :
+
+        return IntentResponse(action="set_title", target="post")
+    
+    if intent_name == "scroll_up" :
+
+        return IntentResponse(action="scroll_up", target="scroll")
+
+    if intent_name == "scroll_down" :
+
+        return IntentResponse(action="scroll_down", target="scroll")
+
+
+
