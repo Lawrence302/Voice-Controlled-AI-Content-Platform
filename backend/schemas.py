@@ -15,6 +15,7 @@ class BlogPostCreate(BaseModel):
 
 class BlogPostRead(BaseModel):
     id: UUID
+    view_id: int
     date: datetime
     title: str
     content: str

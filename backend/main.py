@@ -131,4 +131,23 @@ async def voice_command(request: Request):
 
         return IntentResponse(action="scroll_down", target="scroll")
 
+    if intent_name == "scroll_help_down":
+        return IntentResponse(action="scroll_help_down", target="scroll_help")
     
+    if intent_name == "scroll_help_up":
+        return IntentResponse(action="scroll_help_up", target="scroll_help")
+
+    if intent_name == "view_post":
+        # Extract the post_id from Rasa's entities
+        entities = intent_data.get("entities", [])
+        post_id = None
+        for entity in entities:
+            if entity.get("entity") == "post_id":
+                post_id = entity.get("value")
+                break
+
+        if post_id is not None:
+            # You can optionally validate the post exists here if needed
+            return IntentResponse(action="view_post", target=str(post_id))
+        else:
+            raise HTTPException(status_code=400, detail="Post ID not provided in the intent.")
