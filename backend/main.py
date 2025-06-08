@@ -131,5 +131,4 @@ async def voice_command(request: Request):
 
         return IntentResponse(action="scroll_down", target="scroll")
 
-
-
+    

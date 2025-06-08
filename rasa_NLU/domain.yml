@@ -21,6 +21,22 @@ intents:
   - set_title 
   - scroll_down
   - scroll_up
+  #
+  - view_post
+  - scroll_help_down
+  - scroll_help_up
+
+
+entities:
+  - post_id
+
+slots:
+  post_id:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: post_id
 
 responses:
   utter_greet:
@@ -58,7 +74,7 @@ responses:
 
   utter_close_help:
   - text: "help modal closed"
-  
+
   utter_create_post:
   - text: "opened create post modal"
 
@@ -77,6 +93,17 @@ responses:
   utter_scroll_down:
   - text: "scrolling down"
  
+ #
+
+  utter_view_post:
+  - text: "showing post with id {post_id}."
+
+  utter_scroll_help_down:
+  - text: "scrolling help down"
+
+  utter_scroll_help_up:
+  - text: "scrolling help up"
+
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

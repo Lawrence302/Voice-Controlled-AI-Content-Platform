@@ -54,7 +54,7 @@ stories:
   steps:
   - intent: close_help 
   - action: utter_close_help
-  
+
 - story: create post 
   steps:
   - intent: create_post 
@@ -84,3 +84,20 @@ stories:
   steps:
   - intent: scroll_up
   - action: utter_scroll_up
+
+#
+- story: view_post
+  steps:
+  - intent: view_post
+  - action: utter_view_post
+
+
+- story: scroll help down story
+  steps:
+  - intent: scroll_help_down
+  - action: utter_scroll_help_down
+
+- story: scroll help up story
+  steps:
+  - intent: scroll_help_up
+  - action: utter_scroll_help_up

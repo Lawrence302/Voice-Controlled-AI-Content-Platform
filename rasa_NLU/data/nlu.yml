@@ -181,6 +181,8 @@ nlu:
 - intent: save_post
   examples: |
     - save post
+    - post 
+    - generate post
     - save this post
     - save my draft
     - save the content
@@ -203,6 +205,7 @@ nlu:
     - set topic 
     - the topic is 
     - title is
+    - topic is
     - title title 
     - call this 
     - name the post 
@@ -257,3 +260,49 @@ nlu:
     - close create post
     - exit create post 
     - close post modal 
+
+- intent: view_post
+  examples: |
+    - view post [1](post_id)
+    - show post [42](post_id)
+    - open post [123](post_id)
+    - go to post [7](post_id)
+    - read post [19](post_id)
+    - take me to post [101](post_id)
+    - can you show post [55](post_id)
+    - navigate to post [8](post_id)
+    - display post [333](post_id)
+    - open blog post [27](post_id)
+    - show me post [99](post_id)
+    - please open post number [4](post_id)
+    - show post id [6](post_id)
+    - view post with id [12](post_id)
+    - open the post number [15](post_id)
+    - I want to see post [22](post_id)
+    - fetch post [31](post_id)
+    - get post [2](post_id)
+    - open post id [9](post_id)
+
+- intent: scroll_help_down
+  examples: |
+    - scroll help down
+    - scroll the help down
+    - move help down
+    - scroll down in help
+    - scroll down the help section
+    - move help section down
+    - please scroll help down
+    - help scroll down
+    - scroll help content down
+
+- intent: scroll_help_up
+  examples: |
+    - scroll help up
+    - scroll the help up
+    - move help up
+    - scroll up in help
+    - scroll up the help section
+    - move help section up
+    - please scroll help up
+    - help scroll up
+    - scroll help content up
