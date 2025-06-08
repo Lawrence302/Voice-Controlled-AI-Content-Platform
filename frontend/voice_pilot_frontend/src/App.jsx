@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback} from 'react'
+import { useState, useEffect, useCallback, useRef} from 'react'
 
 import './App.css'
 import About from './pages/About'
@@ -75,7 +75,8 @@ function App() {
 
 
   const navigate = useNavigate();
-   
+  const helpScrollRef = useRef();
+
   
   const addAlert = useCallback((type, message) => {
   const newAlert = { id: crypto.randomUUID(), type, message };
@@ -148,6 +149,7 @@ function App() {
     handleCreatePost,
     setIsHelpModalOpen,
     setIsAboutModalOpen,
+    helpScrollRef,
     addAlert,
     navigate
   });
@@ -234,6 +236,7 @@ function App() {
           isOpen={isHelpModalOpen} 
           onClose={() => setIsHelpModalOpen(false)} 
           commands={VOICE_COMMANDS_HELP}
+          ref={helpScrollRef}
         />
       )}
 

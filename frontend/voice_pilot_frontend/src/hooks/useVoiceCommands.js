@@ -18,6 +18,7 @@ export const useVoiceCommands = ({
   handleCreatePost,
   setIsHelpModalOpen,
   setIsAboutModalOpen,
+  helpScrollRef,
   addAlert,
   navigate
 }) => {
@@ -81,6 +82,22 @@ export const useVoiceCommands = ({
         if (actualCommand.action == "close_help"){
           setIsHelpModalOpen(false);
          
+        }
+
+        if (setIsHelpModalOpen){
+          if(actualCommand.action == "scroll_help_down"&& helpScrollRef?.current){
+               helpScrollRef.current.scrollBy({
+                top: 100,
+                behavior: 'smooth',
+              });
+          }
+
+          if(actualCommand.action == "scroll_help_up"&& helpScrollRef?.current){
+             helpScrollRef.current.scrollBy({
+              top: -100,
+              behavior: 'smooth',
+            });
+          }
         }
 
         // Note** avoid return statements in the if blocks. it may cause an infinite loop

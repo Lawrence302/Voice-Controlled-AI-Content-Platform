@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {forwardRef} from 'react';
 
 /**
  * @param {Object} props
@@ -6,7 +6,10 @@ import React from 'react';
  * @param {Function} props.onClose - Function to close the modal
  * @param {{ command: string, description: string }[]} props.commands - List of voice commands
  */
-const HelpModal = ({ isOpen, onClose, commands }) => {
+const HelpModal = forwardRef(({ isOpen, onClose, commands }, ref) => {
+  
+
+  
   if (!isOpen) return null;
 
   return (
@@ -20,7 +23,7 @@ const HelpModal = ({ isOpen, onClose, commands }) => {
             </svg>
           </button>
         </div>
-        <div className="overflow-y-auto space-y-3 pr-2 flex-grow">
+        <div ref={ref} className="overflow-y-auto space-y-3 pr-2 flex-grow">
           {commands.map((cmd, index) => (
             <div key={index} className="bg-slate-700 p-3 rounded-md">
               <p className="font-semibold text-sky-400">{cmd.command}</p>
@@ -39,6 +42,6 @@ const HelpModal = ({ isOpen, onClose, commands }) => {
       </div>
     </div>
   );
-};
+});
 
 export default HelpModal;
