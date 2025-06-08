@@ -1,12 +1,12 @@
 
-import React, { useState , useEffect} from 'react';
+import React, { useEffect} from 'react';
 import LoadingSpinner from './LoadingSpinner';
 
 
-const CreatePostModal = ({ isOpen, onClose, onSubmit, addAlert ,  topic, setTopic }) => {
+const CreatePostModal = ({ isOpen, onClose, onSubmit, addAlert ,  topic, setTopic, isLoading }) => {
   
   // const [topic, setTopic] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,17 +15,18 @@ const CreatePostModal = ({ isOpen, onClose, onSubmit, addAlert ,  topic, setTopi
       return;
     }
    
-    setIsLoading(true);
+    // setIsLoading(true);
     try {
-      await onSubmit(topic);
+      await onSubmit();
       setTopic(''); // Clear topic on successful submission
       // onClose(); // Parent will handle closing on success if needed
     } catch (err) {
       const msg = err instanceof Error ? err.message : "An unknown error occurred.";
       addAlert && addAlert('error', msg);
-    } finally {
-      setIsLoading(false);
-    }
+    } 
+    // finally {
+    //   setIsLoading(false);
+    // }
   };
 
 useEffect(() => {

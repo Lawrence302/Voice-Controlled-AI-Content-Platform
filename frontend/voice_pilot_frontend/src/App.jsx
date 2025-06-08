@@ -86,27 +86,71 @@ function App() {
     }, 5000);
   }, []);
 
-  
+
+  // the function which handles the creation of a new post
+  const handleCreatePost = useCallback(async () => {
+  setAppError(null);
+  const topic = currentPostDraft.title;
+
+  if (!topic) {
+    addAlert('warning', 'Title is required to generate and save the post.');
+    return;
+  }
+
+  setIsGeminiLoading(true)
+  try {
+    const generatedData = await generateBlogPostContent(topic);
+
+    const newPost = {
+      id: crypto.randomUUID(),
+      ...generatedData,
+      createdAt: new Date().toISOString(),
+      author: 'Lawrence',
+    };
+
+    const res = await fetch("http://127.0.0.1:8000/blog", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newPost),
+    });
+
+    if (!res.ok) throw new Error(`Error: ${res.status}`);
+    const data = await res.json();
+
+    const postWithUiField = { ...data, createdAt: data.date };
+
+    setPosts(prevPosts => [postWithUiField, ...prevPosts]);
+    setIsCreatePostModalOpen(false);
+    navigate(`/post/${data.id}`);
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : "Unknown error.";
+    setAppError(`Failed to create post: ${msg}`);
+    throw error; // Still throw so caller knows it failed
+  }finally{
+    setIsGeminiLoading(false)
+  }
+}, [currentPostDraft.title, addAlert, navigate, setIsCreatePostModalOpen]);
+
 
   // using voice command hook
   const {
-  isListening,
-  transcript,
-  finalTranscript,
-  startListening,
-  stopListening,
-  error: voiceError,
-  isSupported: voiceSupported
-} = useVoiceCommands({
-  isCreatePostModalOpen,
-  setIsCreatePostModalOpen,
-  setCurrentPostDraft,
-  handleCreatePost,
-  setIsHelpModalOpen,
-  setIsAboutModalOpen,
-  addAlert,
-  navigate
-});
+    isListening,
+    transcript,
+    finalTranscript,
+    startListening,
+    stopListening,
+    error: voiceError,
+    isSupported: voiceSupported
+  } = useVoiceCommands({
+    isCreatePostModalOpen,
+    setIsCreatePostModalOpen,
+    setCurrentPostDraft,
+    handleCreatePost,
+    setIsHelpModalOpen,
+    setIsAboutModalOpen,
+    addAlert,
+    navigate
+  });
 
   useEffect(() => {
     localStorage.setItem('geminiBlogPosts', JSON.stringify(posts));
@@ -117,78 +161,9 @@ function App() {
       setShowVoiceError(true)
     }
   },[voiceError])
+  
 
-
-
-  // made it a regular function so it could be hoisted
-  async function handleCreatePost(){
-    setAppError(null);
-    const topic = currentPostDraft.title
-    // setCurrentPostDraft({title:topic})
-    if (!topic) {
-      addAlert('warning', 'Title is required to generate and save the post.');
-      return;
-    }
-    //  setCurrentPostDraft({title:topic})
-    console.log("save post called ", topic)
-    // if (topic){
-    //   return
-    // }
-    try {
-     
-
-      const generatedData = await generateBlogPostContent(topic);
-      const newPost = {
-        id: crypto.randomUUID(),
-        ...generatedData,
-        createdAt: new Date().toISOString(),
-        author: 'Lawrence ',
-      };
-
-      // const newPost ={
-      //   "title": "Exploring Mount Fuji: Japan's Iconic Peak",
-      //   "content": "Mount Fuji is not only the tallest mountain in Japan but also a cultural and spiritual symbol. Located on Honshu Island, it has inspired poets, artists, and adventurers for centuries. Climbing Mount Fuji is a popular summer activity, offering breathtaking views and a sense of accomplishment...",
-      //   "summary": "A look into the history, significance, and climbing experience of Mount Fuji, Japan’s most famous mountain.",
-      //   "author": "Lawrence"
-      // }
-
-      // save the generated post to database 
-      const res = await fetch("http://127.0.0.1:8000/blog", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: newPost.title,
-          content: newPost.content,
-          summary: newPost.summary,
-          author: newPost.author,
-        }),
-      });
-
-      if (!res.ok) {
-        throw new Error(`Error: ${res.status}`);
-      }
-
-      const data = await res.json();
-
-      // normalize backend date field to match UI's createdAt
-      const postWithUiField = { ...data, createdAt: data.date };
-
-      setPosts(prevPosts => [postWithUiField, ...prevPosts]);
-      setIsCreatePostModalOpen(false);
-      navigate(`/post/${data.id}`);
-      
-    } catch (error) {
-      console.error("Failed to create post:", error);
-      if (error instanceof Error) {
-        setAppError(`Error creating post: ${error.message}. The modal might show more specific details.`);
-      } else {
-        setAppError("An unknown error occurred while finalizing post creation.");
-      }
-      throw error; 
-    }
-  };
+  
 
   useEffect(()=>{
      const fetchPosts = async () => {
@@ -278,6 +253,7 @@ function App() {
         // the below are for setting the topic
         topic={currentPostDraft.title}   // pass current title here
         setTopic={(newTitle) => setCurrentPostDraft(prev => ({ ...prev, title: newTitle }))} // pass setter here
+        isLoading={isGeminiLoading}
       />
       
       <VoiceControlBar
