@@ -15,7 +15,8 @@ class BlogPost(Base):
     __tablename__ = "blogposts"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    view_id = Column(Integer, unique=True, autoincrement=True, index=True)
+    title = Column(String(255), nullable=False)
+    view_id = Column(Integer, unique=True, index=True, nullable=False, server_default=func.nextval("blogposts_view_id_seq"))
     date = Column(TIMESTAMP, nullable=False, server_default=func.now())
     title = Column(String(255), nullable=False)
     content = Column(Text, nullable=False)

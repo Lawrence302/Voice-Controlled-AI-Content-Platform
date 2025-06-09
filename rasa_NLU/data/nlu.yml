@@ -165,18 +165,13 @@ nlu:
   examples: |
     - create new post
     - draft new post
-    - I want to write a new post
+    - write a new post
     - start writing a post
-    - open post editor
     - write a new article
     - make a new post
     - start a post draft
     - create a blog post
-    - begin a new draft
-    - I want to create content
-    - write something new
-    - launch post composer
-    - open the create post page
+    - open the create post modal
 
 - intent: save_post
   examples: |
@@ -188,14 +183,13 @@ nlu:
     - save the content
     - store the post
     - keep this draft
-    - I want to save this
+    - save this
     - can you save my post
     - make sure it's saved
     - save what I wrote
-    - don't lose this post
     - save changes
     - save the current draft
-    - save and continue later
+    - save and continue 
 
 
 - intent: set_title
