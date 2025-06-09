@@ -73,6 +73,14 @@ export const useVoiceCommands = ({
   
         }
 
+        if (actualCommand.action == "view_post"){
+          console.log(actualCommand.target)
+
+          // fetch(`http://localhost:8000/blog/`)
+          const post_id = actualCommand.target
+          navigate(`/post/${post_id}`)
+        }
+
         // Note** avoid return statements in the if blocks. it may cause an infinite loop
         if (actualCommand.action == "open_help"){
           setIsHelpModalOpen(true);

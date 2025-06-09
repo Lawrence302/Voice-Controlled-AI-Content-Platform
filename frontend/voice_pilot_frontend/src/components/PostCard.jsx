@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 const PostCard = ({ post }) => {
-  console.log(post)
+ 
   return (
     <article className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
       <div className="p-6">

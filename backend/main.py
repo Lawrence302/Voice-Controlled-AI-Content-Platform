@@ -55,13 +55,21 @@ async def get_all_blogposts(db: AsyncSession = Depends(get_db)):
 #  get blogpost by id
 from fastapi import Path
 
-@app.get("/blog/{post_id}", response_model=BlogPostCreate)
+@app.get("/blog/{post_id}", response_model=BlogPostRead)
 async def get_blogpost_by_id(post_id: int = Path(..., gt=0), db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(BlogPost).where(BlogPost.id == post_id))
     post = result.scalars().first()
-    if not post:
-        raise HTTPException(status_code=404, detail="BlogPost not found")
-    return post
+    if post:
+
+        return post
+    # check the post by view id
+    result2 = await db.execute(select(BlogPost).where(BlogPost.view_id == post_id))
+    post = result2.scalars().first()
+
+    if post:
+        return post
+    raise HTTPException(status_code=404, detail="BlogPost not found")
+    
 
 
 @app.post("/voice-command")
