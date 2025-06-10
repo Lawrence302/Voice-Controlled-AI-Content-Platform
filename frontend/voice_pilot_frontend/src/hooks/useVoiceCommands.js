@@ -17,7 +17,6 @@ export const useVoiceCommands = ({
   setCurrentPostDraft,
   handleCreatePost,
   setIsHelpModalOpen,
-  setIsAboutModalOpen,
   helpScrollRef,
   addAlert,
   navigate
@@ -204,7 +203,6 @@ export const useVoiceCommands = ({
     setCurrentPostDraft,
     setIsCreatePostModalOpen,
     setIsHelpModalOpen,
-    setIsAboutModalOpen,
     handleCreatePost
   ]);
 

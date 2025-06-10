@@ -38,7 +38,7 @@ useEffect(() => {
   
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-opacity duration-300 ease-in-out">
+    <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-20 transition-opacity duration-300 ease-in-out">
       <div className="bg-white p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-lg transform transition-all duration-300 ease-in-out scale-100">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-sky-700">Create New Blog Post</h2>

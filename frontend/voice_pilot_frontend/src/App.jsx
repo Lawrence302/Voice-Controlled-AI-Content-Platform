@@ -11,7 +11,6 @@ import Alert from './components/Alert'
 import VoiceControlBar from './components/VoiceControlBar.jsx'
 import AlertPopup from './components/AlertPopup.jsx'
 import HelpModal from './components/HelpModal.jsx'
-import AboutModal from './components/AboutModal.jsx'
 
 import { generateBlogPostContent } from '../geminiService'
 import {useLocation, useNavigate, Routes, Route } from 'react-router-dom'
@@ -19,8 +18,8 @@ import PostDetail from './pages/PostDetail'
 import { useVoiceCommands } from './hooks/useVoiceCommands.js'
 
 import { VOICE_COMMANDS_HELP } from '../constants.js'
-// get existing posts from database
-// get existing posts from database
+
+// array is filled with existing posts from database
 let INITIAL_POSTS_DATA = [];
 
 
@@ -70,7 +69,6 @@ function App() {
   const [alerts, setAlerts] = useState([]); // array of alert messages
   const [isGeminiLoading, setIsGeminiLoading] = useState(false);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
   const [showVoiceError, setShowVoiceError] = useState(false)
 
 
@@ -148,7 +146,6 @@ function App() {
     setCurrentPostDraft,
     handleCreatePost,
     setIsHelpModalOpen,
-    setIsAboutModalOpen,
     helpScrollRef,
     addAlert,
     navigate
@@ -208,7 +205,6 @@ function App() {
         // setCurrentPostDraft({ title: '' });
         setIsCreatePostModalOpen(true)}}
         onToggleHelp={() => setIsHelpModalOpen(prev => !prev)}
-        onToggleAbout={() => setIsAboutModalOpen(prev => !prev)}
       
         />
 
@@ -237,13 +233,6 @@ function App() {
           onClose={() => setIsHelpModalOpen(false)} 
           commands={VOICE_COMMANDS_HELP}
           ref={helpScrollRef}
-        />
-      )}
-
-      {isAboutModalOpen && (
-        <AboutModal
-          isOpen={isAboutModalOpen}
-          onClose={() => setIsAboutModalOpen(false)}
         />
       )}
       

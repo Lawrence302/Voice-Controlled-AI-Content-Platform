@@ -146,6 +146,7 @@ nlu:
 - intent: close_help
   examples: |
     - close help
+    - show help
     - hide help
     - dismiss help
     - close help modal

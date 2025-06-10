@@ -13,7 +13,7 @@ const HelpModal = forwardRef(({ isOpen, onClose, commands }, ref) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[60] p-4">
+    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[20] p-4">
       <div className="bg-slate-800 p-6 rounded-lg shadow-xl w-full max-w-lg max-h-[80vh] flex flex-col">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold text-yellow-400">Voice Commands Help</h2>
