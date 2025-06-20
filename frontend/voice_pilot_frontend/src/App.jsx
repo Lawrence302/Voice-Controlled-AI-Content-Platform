@@ -11,6 +11,7 @@ import Alert from './components/Alert'
 import VoiceControlBar from './components/VoiceControlBar.jsx'
 import AlertPopup from './components/AlertPopup.jsx'
 import HelpModal from './components/HelpModal.jsx'
+import LoginPage from './pages/LoginPage.jsx'
 
 import { generateBlogPostContent } from '../geminiService'
 import {useLocation, useNavigate, Routes, Route } from 'react-router-dom'
@@ -54,7 +55,10 @@ const ScrollToTop = () => {
 
 
 function App() {
-   const [posts, setPosts] = useState(() => {
+  const [loggedIn, setLoggedIn] = useState()
+  
+
+  const [posts, setPosts] = useState(() => {
     const savedPosts = localStorage.getItem('geminiBlogPosts');
     return savedPosts ? JSON.parse(savedPosts) : INITIAL_POSTS_DATA;
   });
@@ -70,6 +74,10 @@ function App() {
   const [isGeminiLoading, setIsGeminiLoading] = useState(false);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   const [showVoiceError, setShowVoiceError] = useState(false)
+
+  // login
+  
+
 
 
   const navigate = useNavigate();
@@ -161,6 +169,21 @@ function App() {
     }
   },[voiceError])
   
+  // use effect for login
+  useEffect(()=>{
+    const userData = localStorage.getItem('userInfo')
+
+    if (!userData){
+      return
+    }
+    const userInfo = JSON.parse(userData)
+    if(!userInfo.loggedIn){
+      
+      return
+    }
+
+    setLoggedIn(true)
+  },[])
 
   
 
@@ -199,12 +222,19 @@ function App() {
 
 
   return (
-    <div className="flex flex-col min-h-screen w-full bg-slate-800 ">
+    <div className="flex flex-col min-h-screen w-full bg-slate-800 pb-9 ">
     
-      <Header onNewPostClick={() => {
-        // setCurrentPostDraft({ title: '' });
-        setIsCreatePostModalOpen(true)}}
-        onToggleHelp={() => setIsHelpModalOpen(prev => !prev)}
+      <Header 
+
+        loggedIn={loggedIn}
+       setLoggedIn={setLoggedIn}
+
+        onNewPostClick={() => {
+          // setCurrentPostDraft({ title: '' });
+          setIsCreatePostModalOpen(true)}}
+          onToggleHelp={() => setIsHelpModalOpen(prev => !prev)
+
+        }
       
         />
 
@@ -222,6 +252,7 @@ function App() {
             <Route path="/post/:id" element={<PostDetail posts={posts} />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/login" element={<LoginPage  setLoggedIn={setLoggedIn}/>} />
           
           </Routes>
         )}

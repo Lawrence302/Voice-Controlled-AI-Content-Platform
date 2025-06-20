@@ -1,12 +1,26 @@
-import React from'react';
+
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const Header = ({ onNewPostClick, onToggleHelp  }) => {
- 
-  
+const Header = ({ onNewPostClick, onToggleHelp , loggedIn , setLoggedIn}) => {
 
+  const navigate = useNavigate()
+  function goToLoginPage(){
+    navigate('/login')
+  }
 
-  // Start recognition 
+  // logout
+  function logout(){
+    const userData = localStorage.getItem('userInfo')
+
+    if(!userData) return;
+
+    const userInfo = JSON.parse(userData)
+
+    userInfo.loggedIn = false
+    localStorage.setItem('userInfo', JSON.stringify(userInfo))
+    setLoggedIn(false)
+  }
  
  
 
@@ -20,6 +34,9 @@ const Header = ({ onNewPostClick, onToggleHelp  }) => {
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/about'>About</Link></li>
         <li><Link to='/contact'>Contact</Link></li>
+        {/* login button */}
+        
+        
         {/* ////////////////// */}
        
 
@@ -36,9 +53,19 @@ const Header = ({ onNewPostClick, onToggleHelp  }) => {
           </button>
 
       </ul>
-
+      {loggedIn ? 
+          <button className=" border" onClick={logout}>Logout</button> 
+          : 
+          <button 
+          onClick={goToLoginPage}
+          className=" border bg-slate-800  px-6 rounded-lg cursor-pointer hover:bg-slate-900 "
+          >
+            Login
+          </button> 
+        }
       
-      <button
+      {loggedIn &&
+        <button
         onClick={onNewPostClick}
         className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 px-4 rounded-lg shadow transition-colors flex items-center text-sm"
         aria-label="Create new post"
@@ -47,7 +74,7 @@ const Header = ({ onNewPostClick, onToggleHelp  }) => {
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
         </svg>
         New Post
-      </button>
+      </button>}
 
      
     </div>
