@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react'
 import * as faceapi from "face-api.js";
 import { useNavigate } from 'react-router-dom';
 
-const LoginForm = ({ setLoggedIn}) => {
+const LoginForm = ({setLoggedIn}) => {
 
 
     // Track if user is in login or registration mode (disables buttons)
@@ -140,6 +140,8 @@ const LoginForm = ({ setLoggedIn}) => {
         
     };
 
+   
+
     // Load the face-api.js models once the component mounts
     useEffect(() => {
       const loadModels = async () => {
@@ -165,17 +167,20 @@ const LoginForm = ({ setLoggedIn}) => {
 
     return (
         <div style={{ textAlign: "center", padding: 20 }}>
-        <h1>🧠 Face Recognition Login (React Demo)</h1>
+        <h1 className='text-white text-2xl'> Face Recognition Login </h1>
 
         {/* Webcam stream */}
-        <video
-            ref={videoRef}
-            autoPlay
-            muted
-            width="640"
-            height="480"
-            style={{ borderRadius: 10 }}
-        />
+        <div className='flex justify-center items-center '>
+            <video
+                ref={videoRef}
+                autoPlay
+                muted
+                width="640"
+                height="480"
+                style={{ borderRadius: 10 }}
+            />
+        </div>
+        
         
         
         {/* Buttons */}

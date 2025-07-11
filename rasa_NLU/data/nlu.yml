@@ -105,12 +105,14 @@ nlu:
 - intent: navigate_about
   examples: |
     - go to about page
-    - go about 
-    - for for about
+    - for about
     - navigate to about
     - i want to go to about page
     - i would like to go back to about page
     - send me to about page 
+    - show me the about page
+    - open the about section
+    - I want information about the app
 
 - intent: navigate_contact
   examples: |
@@ -301,3 +303,22 @@ nlu:
     - please scroll help up
     - help scroll up
     - scroll help content up
+
+- intent: logout
+  examples: |
+    - logout
+    - log out.
+    - log out
+    - signout
+    - sign out.
+    - sign out
+    - logg me out
+    - sign off 
+    - exit account
+    - I want to sign out
+    - can you log me out?
+    - please sign me out
+    - log me out
+    - I want to log out
+    - get me out
+    - exit my account

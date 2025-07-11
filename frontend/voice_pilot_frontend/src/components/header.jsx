@@ -54,7 +54,7 @@ const Header = ({ onNewPostClick, onToggleHelp , loggedIn , setLoggedIn}) => {
 
       </ul>
       {loggedIn ? 
-          <button className=" border" onClick={logout}>Logout</button> 
+          <button className=" border px-6 rounded cursor-pointer" onClick={logout}>Logout</button> 
           : 
           <button 
           onClick={goToLoginPage}

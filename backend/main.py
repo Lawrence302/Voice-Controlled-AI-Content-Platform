@@ -119,7 +119,7 @@ async def voice_command(request: Request):
 
     if intent_name == "create_post":
         return IntentResponse(action='create_post', target="post")
-    
+    # saving post
     if intent_name == "save_post":
         return IntentResponse(action='save_post', target="post")
     
@@ -138,6 +138,11 @@ async def voice_command(request: Request):
     if intent_name == "scroll_down" :
 
         return IntentResponse(action="scroll_down", target="scroll")
+    
+    # logging out
+    if intent_name == "logout" :
+
+        return IntentResponse(action="logout", target="logout")
 
     if intent_name == "scroll_help_down":
         return IntentResponse(action="scroll_help_down", target="scroll_help")

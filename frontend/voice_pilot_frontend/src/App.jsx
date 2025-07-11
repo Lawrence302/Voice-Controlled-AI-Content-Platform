@@ -252,7 +252,7 @@ function App() {
             <Route path="/post/:id" element={<PostDetail posts={posts} />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/login" element={<LoginPage  setLoggedIn={setLoggedIn}/>} />
+            <Route path="/login" element={<LoginPage isLoggedIn={loggedIn} setLoggedIn={setLoggedIn}/>} />
           
           </Routes>
         )}

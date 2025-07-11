@@ -1,9 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import LoginForm from '../components/LoginForm'
+import { useNavigate } from 'react-router-dom'
 
-const LoginPage = ({setLoggedIn}) => {
+const LoginPage = ({isLoggedIn, setLoggedIn}) => {
+
+  const navigate = useNavigate()
+
+ 
+
+  useEffect(()=>{
+    if(isLoggedIn){
+      navigate('/')
+    }
+  })
+
   return (
-    <LoginForm setLoggedIn={setLoggedIn} />
+
+    <LoginForm  setLoggedIn={setLoggedIn} />
   )
 }
 

@@ -26,6 +26,9 @@ intents:
   - scroll_help_down
   - scroll_help_up
 
+  #
+  - logout
+
 
 entities:
   - post_id
@@ -103,6 +106,9 @@ responses:
 
   utter_scroll_help_up:
   - text: "scrolling help up"
+
+  utter_logout:
+  - text: "Logging out user"
 
 session_config:
   session_expiration_time: 60

@@ -101,3 +101,9 @@ stories:
   steps:
   - intent: scroll_help_up
   - action: utter_scroll_help_up
+
+- story: logout
+  steps:
+  - intent: logout
+  - action: utter_logout
+
