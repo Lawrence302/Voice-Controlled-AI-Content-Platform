@@ -24,24 +24,6 @@ import { VOICE_COMMANDS_HELP } from '../constants.js'
 let INITIAL_POSTS_DATA = [];
 
 
-// const INITIAL_POSTS_DATA = [
-//   {
-//     id: '1',
-//     title: 'Welcome to Gemini Blog!',
-//     summary: 'Discover the power of AI-generated content on our new platform.',
-//     content: 'This is the inaugural post on Gemini Blog, a place where creativity meets artificial intelligence. Here, you can explore articles written with the help of cutting-edge language models, and even contribute your own AI-assisted creations.\n\nOur goal is to showcase how AI can be a powerful tool for content creation, idea generation, and storytelling. Stay tuned for more exciting posts!',
-//     createdAt: new Date(Date.now() - 86400000 * 2).toISOString(), // 2 days ago
-//     author: 'The Gemini Team',
-//   },
-//   {
-//     id: '2',
-//     title: 'The Future of Blogging with AI',
-//     summary: 'Exploring how AI is set to revolutionize the way we create and consume blog content.',
-//     content: 'Artificial intelligence is rapidly transforming various industries, and blogging is no exception. From automated content generation to personalized reading experiences, AI offers a plethora of possibilities.\n\nImagine drafting an article with an AI co-author, getting instant feedback on style and grammar, or even having AI generate topic ideas based on current trends. This is not science fiction; it\'s the near future of blogging.\n\nWhile AI provides powerful assistance, the human touch remains crucial for authentic storytelling and unique perspectives. The synergy between human creativity and AI capabilities will define the next era of digital content.',
-//     createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
-//     author: 'AI Enthusiast',
-//   },
-// ];
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -55,7 +37,7 @@ const ScrollToTop = () => {
 
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState()
+  const [loggedIn, setLoggedIn] = useState(false)
   
 
   const [posts, setPosts] = useState(() => {
@@ -115,6 +97,7 @@ function App() {
       author: 'Lawrence',
     };
 
+    // sending the post to fastapi to be saved in db
     const res = await fetch("http://127.0.0.1:8000/blog", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -178,7 +161,7 @@ function App() {
     }
     const userInfo = JSON.parse(userData)
     if(!userInfo.loggedIn){
-      
+      setLoggedIn(false)
       return
     }
 

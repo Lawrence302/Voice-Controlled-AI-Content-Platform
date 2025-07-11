@@ -61,6 +61,25 @@ export const useVoiceCommands = ({
         // 
         addAlert('info', `Heard: "${command}"`);
 
+         if(command === 'log out.' 
+            || command === 'sign out.' 
+            || command === 'log out' 
+            || command === 'sign out' 
+            || actualCommand.action === "logout" ){
+             const userData = localStorage.getItem('userInfo'); // Get user data from localStorage
+
+            if (!userData) return; // If no user data, just exit
+
+            const userInfo = JSON.parse(userData); // Parse it from JSON string to object
+
+            userInfo.loggedIn = false; // Set loggedIn flag to false
+
+            localStorage.setItem('userInfo', JSON.stringify(userInfo)); // Save back to localStorage
+            console.log('logging out uer')
+
+            navigate('/'); // Update React state
+          }
+
         if (actualCommand.action == "navigate"){
             if (actualCommand.target == ""){
               addAlert('info', 'Welcome to home page');
@@ -149,6 +168,8 @@ export const useVoiceCommands = ({
             addAlert('success', `Title set to: "${title}"`);
             
           }
+
+         
 
           if (actualCommand.action == "save_post"){
            

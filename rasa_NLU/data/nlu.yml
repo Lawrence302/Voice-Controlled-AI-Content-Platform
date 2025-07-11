@@ -306,19 +306,32 @@ nlu:
 
 - intent: logout
   examples: |
-    - logout
-    - log out.
     - log out
-    - signout
+    - log out.
+    - sign out
+    - sign out.
+    - log me out
+    - please log me out
+    - I want to log out.
+    - I want to log out
+    - I would like to sign out
+    - exit the account
+    - please sign me out
+    - can you log me out?
+    - logout please
+    - log out now
+    - sign out now
+    - I need to sign out
+    - exit now
+    - log out of the app
+    - I want to exit
+
+- lookup: logout
+  examples: |
+    - log out
+    - log out.
     - sign out.
     - sign out
-    - logg me out
-    - sign off 
-    - exit account
-    - I want to sign out
-    - can you log me out?
-    - please sign me out
+    - logout
     - log me out
-    - I want to log out
-    - get me out
-    - exit my account
+    - exit account

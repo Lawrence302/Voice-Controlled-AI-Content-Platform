@@ -10,18 +10,20 @@ const Header = ({ onNewPostClick, onToggleHelp , loggedIn , setLoggedIn}) => {
   }
 
   // logout
-  function logout(){
-    const userData = localStorage.getItem('userInfo')
+  function logout() {
+    const userData = localStorage.getItem('userInfo'); // Get user data from localStorage
 
-    if(!userData) return;
+    if (!userData) return; // If no user data, just exit
 
-    const userInfo = JSON.parse(userData)
+    const userInfo = JSON.parse(userData); // Parse it from JSON string to object
 
-    userInfo.loggedIn = false
-    localStorage.setItem('userInfo', JSON.stringify(userInfo))
-    setLoggedIn(false)
+    userInfo.loggedIn = false; // Set loggedIn flag to false
+
+    localStorage.setItem('userInfo', JSON.stringify(userInfo)); // Save back to localStorage
+
+    setLoggedIn(false); // Update React state
   }
- 
+
  
 
   return (
