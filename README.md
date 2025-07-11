@@ -58,17 +58,28 @@ CREATE TABLE blogposts (
 ```bash
 git clone https://github.com/yourusername/voice-controlled-ai-content-platform.git
 cd voice-controlled-ai-content-platform
+```
 ## Backend Setup:
-### 1. Install Python dependencies:
+### 1. move to backend file and create a python environment 
 ```bash
-cd backend
+  cd backend
+  python -m venv env
+```
+To activate the environment
+```bash
+env/Scripts/activate
+```
+### 2. Install Python dependencies:
+```bash
 pip install -r requirements.txt
+```
 
-### 2. Configure PostgreSQL database and apply schema.
+### 3. Configure PostgreSQL database and apply [This Schema](#database-schema)
 
-### 3. Run FastAPI server:
+### 4. Run FastAPI server:
 ```bash
 uvicorn main:app --reload
+```
 
 ## Frontend Setup:
 ### 1. Navigate to frontend directory and install dependencies:
@@ -76,11 +87,11 @@ uvicorn main:app --reload
 ```bash
 cd frontend/voice_pilot_frontend
 npm install
-
+```
 ### 2. Run React app:
 ```bash
-npm start
-
+npm run dev
+```
 ## Environment Variables:
 Configure environment variables for API URLs, Rasa server, Gemini API keys, and Face Recognition service as required
 - `VITE_GEMINI_API_KEY` - Your Google Gemini API key
