@@ -6,8 +6,6 @@ The **Voice-Controlled AI Content Platform** is a modern web application that en
 The platform leverages voice recognition to interpret user commands, integrates with Rasa for intent parsing, and uses Google Gemini for generating rich content. 
 It supports secure user authentication via face recognition and stores data in PostgreSQL. The backend is powered by FastAPI, while the frontend is built with React.
 
----
-
 ## Features
 
 - **Voice Command Input:** Users can control the site and generate content using natural voice commands.
@@ -16,8 +14,6 @@ It supports secure user authentication via face recognition and stores data in P
 - **Intelligent Intent Parsing:** Rasa NLP handles understanding and processing user voice commands.
 - **Full CRUD Operations:** Create, read, update, and delete blog posts stored in PostgreSQL.
 - **Modern Tech Stack:** Built with React (frontend), FastAPI (backend), PostgreSQL (database), and Rasa (NLP).
-
----
 
 ## Tech Stack
 
@@ -30,7 +26,6 @@ It supports secure user authentication via face recognition and stores data in P
 | Google Gemini   | AI Content Generation        |
 | Face Recognition| Authentication               |
 
----
 
 ## Database Schema
 
@@ -55,7 +50,7 @@ CREATE TABLE blogposts (
   author VARCHAR(100) NOT NULL,
   view_id SERIAL UNIQUE
 );
-
+```
 ## Installation and Setup
 
 ### Clone the repository:
