@@ -101,7 +101,7 @@ pip install -r requirements.txt
 ### 3. To run the rasa server use the command
 ```bash
 rasa run --enable-api
-
+```
 ## Frontend Setup:
 ### 1. Navigate to frontend directory and install dependencies:
 
