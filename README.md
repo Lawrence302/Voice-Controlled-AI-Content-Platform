@@ -107,7 +107,7 @@ Configure environment variables for API URLs, Rasa server, Gemini API keys, and 
 - Manage posts via the intuitive UI.
 
 # Voice Pilot Project - Directory Structure
-
+```
 Voice Pilot project/
 ├── backend/
 │   ├── env/
@@ -171,7 +171,7 @@ Voice Pilot project/
     ├── credentials.yml
     ├── domain.yml
     └── endpoints.yml
-
+```
 
 ## Contribution
 Contributions are welcome! Please fork the repo and submit a pull request.
