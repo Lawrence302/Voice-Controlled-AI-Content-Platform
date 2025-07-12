@@ -81,6 +81,27 @@ pip install -r requirements.txt
 uvicorn main:app --reload
 ```
 
+## Rasa Setup:
+#### Note: rasa is not supported on latest python versions so its advisable to use 3.8 to 3.10
+### 1. move to rasa_NLU file and create a python environment
+
+```bash
+  cd rasa_NLU
+  python3.10 -m venv env 
+```
+To activate the environment
+```bash
+env/Scripts/activate
+```
+### 2. Install Python dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+### 3. To run the rasa server use the command
+```bash
+rasa run --enable-api
+
 ## Frontend Setup:
 ### 1. Navigate to frontend directory and install dependencies:
 
